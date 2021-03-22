@@ -7,10 +7,9 @@ __pycache__/
 *.sw[po]
 
 # VS Code
-.vscode
+.vscode/*
 *.code-workspace
 
 .env
 scripts/
-requirements.txt
-.vscode/settings.json
+venv/*
