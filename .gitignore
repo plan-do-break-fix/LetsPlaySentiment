@@ -1,0 +1,16 @@
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# vim
+*.sw[po]
+
+# VS Code
+.vscode
+*.code-workspace
+
+.env
+scripts/
+requirements.txt
+.vscode/settings.json
