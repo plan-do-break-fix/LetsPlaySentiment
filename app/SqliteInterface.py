@@ -20,7 +20,7 @@ TABLES = {
         "CREATE TABLE IF NOT EXISTS 'channels' ("
         "  name TEXT NOT NULL,"
         "  id TEXT NOT NULL,"
-        "  url TEXT NOT NULL"
+        #"  url TEXT NOT NULL"
         ");"
     ),
     "games": (
@@ -81,5 +81,16 @@ class SqliteInterface:
         self.c.execute("SELECT rowid FROM playlists WHERE id=?", (playlist,))
         return True if self.c.fetchone() else False
 
+    # Insertion Methods
 
-    
+    def new_channel(self, name: str, id: str) -> int:
+        self.c.execute("INSERT INTO channels (name, id) VALUES (?,?)", 
+                       (name, id))
+        self.conn.commit()
+        return self.c.lastrowid
+
+    def new_playlist(self, id: str, channel_pk: int, game_pk: int) -> int:
+        self.c.execute("INSERT INTO playlists (id, channel, game) VALUES (?,?,?)",
+                       (id, channel_pk, game_pk))
+        self.conn.commit()
+        return self.c.lastrowid
