@@ -2,6 +2,8 @@ import sqlite3
 from typing import List
 
 
+# id exclusively refers to YouTube alphanumeric id
+# pks are all referenced with rowid
 TABLES = {
     "playlists": (
         "CREATE TABLE IF NOT EXISTS 'playlists' ("
@@ -17,6 +19,7 @@ TABLES = {
     "channels": (
         "CREATE TABLE IF NOT EXISTS 'channels' ("
         "  name TEXT NOT NULL,"
+        "  id TEXT NOT NULL,"
         "  url TEXT NOT NULL"
         ");"
     ),
@@ -38,8 +41,11 @@ class SqliteInterface:
         self.conn.commit()
     
     def get_unprocessed(self) -> List[str]:
-        self.c.execute("SELECT id FROM playlists WHERE retrieved=0;")
+        self.c.execute("SELECT id FROM playlists WHERE transcribed=1 AND retrieved=0;")
         return self.c.fetchall()
+
+    def get_transcribed_unknown(self) -> List[str]:
+        self.c.execute("SELECT id FOM playlists WHERE transcribed=NULL")
 
     def mark_as_retrieved(self, playlist: str) -> bool:
         self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?", (playlist,))
