@@ -46,6 +46,13 @@ class SqliteInterface:
         self.conn.commit()
         return True
 
+    def mark_as_transcribed(self, playlist: str, value: int) -> bool:
+        if value not in [0,1]:
+            raise ValueError
+        self.c.execute("UPDATE playlists SER transcribed=?", (value,))
+        self.conn.commit()
+        return True
+
     def get_channel_pk(self, channel: str) -> int:
         self.c.execute("SELECT rowid FROM channels WHERE name=?", (channel,))
         return self.c.fetchone()[0]
