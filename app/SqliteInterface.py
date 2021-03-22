@@ -6,9 +6,10 @@ TABLES = {
     "playlists": (
         "CREATE TABLE IF NOT EXISTS 'playlists' ("
         "  id TEXT NOT NULL,"
-        "  retrieved INTEGER DEFAULT 0,"
         "  channel INTEGER NOT NULL,"
         "  game INTEGER NOT NULL,"
+        "  transcribed INTEGER DEFAULT NULL,"
+        "  retrieved INTEGER DEFAULT 0"
         "  FOREIGN KEY (channel) REFERENCES channel (rowid),"
         "  FOREIGN KEY (game) REFERENCES games (rowid)"
         ");"
@@ -53,7 +54,19 @@ class SqliteInterface:
         self.c.execute("SELECT rowid FROM games WHERE name=?", (game,))
         return self.c.fetchone()[0]
 
-    
+    # Existence Checks
+
+    def channel_exists(self, channel: str) -> bool:
+        self.c.execute("SELECT rowid FROM channels WHERE name=?", (channel,))
+        return True if self.c.fetchone() else False
+
+    def game_exists(self, game: str) -> bool:
+        self.c.execute("SELECT rowid FROM games WHERE name=?", (game,))
+        return True if self.c.fetchone() else False
+
+    def playlist_exists(self, playlist: str) -> bool:
+        self.c.execute("SELECT rowid FROM playlists WHERE id=?", (playlist,))
+        return True if self.c.fetchone() else False
 
 
     
