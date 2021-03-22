@@ -19,8 +19,7 @@ TABLES = {
     "channels": (
         "CREATE TABLE IF NOT EXISTS 'channels' ("
         "  name TEXT NOT NULL,"
-        "  id TEXT NOT NULL,"
-        #"  url TEXT NOT NULL"
+        "  id TEXT NOT NULL"
         ");"
     ),
     "games": (
