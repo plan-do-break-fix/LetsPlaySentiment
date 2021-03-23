@@ -52,7 +52,9 @@ class SqliteInterface:
 
     def get_oldest_update(self) -> int:
         self.c.execute("SELECT last_searched, id FROM playlists")
-        return self.c.fetchall()
+        updates = self.c.fetchall()
+        updates.sort(reverse=True)
+        return updates.pop()
 
     def mark_as_retrieved(self, playlist: str) -> bool:
         self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?", (playlist,))
