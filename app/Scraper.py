@@ -25,4 +25,23 @@ class Scraper:
         parts = [_i["text"] for _i in resp]
         return " ".join(parts)
 
-        
+    def video_has_en_ts(self, video: str) -> bool:
+        res = tsApi.list_transcripts(video)
+        return True if res.find_generated_transcript(["en"]) else False
+
+
+    # Finding and parsing playlist metadata
+
+    def find_playlists(self, game: str) -> dict:
+        res = self.yt.search_by_keywords(q=f"{game}", 
+                                         search_type="playlist",
+                                         count=999,
+                                         return_json=True)
+        return map(self.trim_metadata, res.items)
+
+    def trim_metadata(self, playlist_json: dict) -> dict:
+        return {"playlist_id": playlist_json["id"]["playlistId"],
+                "playlist_title": playlist_json["snippet"]["title"],
+                "channel_id": playlist_json["snippet"]["channelId"],
+                "channel_name": playlist_json["channelTitle"]
+                }
