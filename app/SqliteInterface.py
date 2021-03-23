@@ -8,6 +8,7 @@ TABLES = {
     "playlists": (
         "CREATE TABLE IF NOT EXISTS 'playlists' ("
         "  id TEXT NOT NULL,"
+        "  title TEXT NOT NULL"
         "  channel INTEGER NOT NULL,"
         "  game INTEGER NOT NULL,"
         "  transcribed INTEGER DEFAULT NULL,"
@@ -54,7 +55,7 @@ class SqliteInterface:
     def mark_as_transcribed(self, playlist: str, value: int) -> bool:
         if value not in [0,1]:
             raise ValueError
-        self.c.execute("UPDATE playlists SER transcribed=?", (value,))
+        self.c.execute("UPDATE playlists SET transcribed=? WHERE id=?", (value, playlist))
         self.conn.commit()
         return True
 
