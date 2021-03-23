@@ -71,7 +71,7 @@ class SqliteInterface:
         return True
 
     def get_channel_pk(self, channel: str) -> int:
-        self.c.execute("SELECT rowid FROM channels WHERE name=?", (channel,))
+        self.c.execute("SELECT rowid FROM channels WHERE id=?", (channel,))
         return self.c.fetchone()[0]
 
     def get_game_pk(self, game: str) -> int:
