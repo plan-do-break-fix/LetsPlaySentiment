@@ -28,6 +28,7 @@ class App:
         self.log.setLevel(logging.DEBUG)
 
     def cycle(self) -> None:
+        # download transcripts waiting for download
         to_process = self.db.get_unprocessed()
         if to_process:
             for playlist in to_process:
@@ -35,15 +36,36 @@ class App:
                 if self.process(playlist[0]):
                     self.log.debug(f"Successfully processed {playlist[0]}.")
         to_check = self.db.get_transcribed_unknown()
+        # check if any new playlists have transcripts or not
         if to_check:
             for playlist in to_check:
                 self.log.debug(f"Checking {playlist} for transcripts.")
-                self.db.mark_as_transcribed(
-                        playlist, 
-                        int(self.check_is_transcribed(playlist)))
+                self.db.mark_as_transcribed(playlist, 
+                                            int(self.check_is_transcribed(playlist)))
+        # if previous entries are complete, find playlists for next game
         if not to_process and not to_check:
-            self.log.debug("Nothing to do. Waiting...")
-            sleep(60)
+            to_search = self.db.get_unsearched()
+            if not to_search:
+                self.log.debug("Nothing to do. Waiting...")
+                sleep(60)
+                return None
+            to_search = to_search.pop()
+            playlist_dicts = self.scraper.find_playlists(f"play {to_search}")
+            self.log.debug(f"Found {len(playlist_dicts)} playlists for {to_search}.")
+            for playlist in playlist_dicts:
+                if not self.db.playlist_exists(playlist["playlist_id"]):
+                    self.log.debug("New playlist encountered.")
+                    if not self.db.channel_exists(playlist["channel_id"]):
+                        self.db.new_channel(playlist["channel_name"], 
+                                            playlist["channel_id"])
+                        self.log.debug(f"Channel {playlist['channel_name']} added.")
+                    self.db.new_playlist(playlist["playlist_id"],
+                                         playlist["playlist_title"],
+                                         self.db.get_channel_pk(playlist["channel_id"]),
+                                         self.db.get_game_pk(to_search))
+                    self.log.debug(f"Playlist for {to_search} by "\
+                                    "{playlist['channel_name']} added.")
+            self.db.mark_as_searched(playlist["playlist_id"])
 
     def check_is_transcribed(self, playlist: str) -> bool:
         return all(map(self.scraper.video_has_en_ts, 
