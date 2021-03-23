@@ -33,16 +33,15 @@ class Scraper:
 
     # Finding and parsing playlist metadata
 
-    def find_playlists(self, game: str) -> dict:
-        res = self.yt.search_by_keywords(q=f"{game}", 
-                                         search_type="playlist",
-                                         count=999,
-                                         return_json=True)
-        return map(self.trim_metadata, res.items())
+    def find_playlists(self, terms: str) -> List[dict]:
+        search = PlaylistsSearch(terms, limit=200)
+        results = search.result()["result"]
+        while search.next():
+            results += search.result()["result"]
 
     def trim_metadata(self, playlist_json: dict) -> dict:
-        return {"playlist_id": playlist_json["id"]["playlistId"],
-                "playlist_title": playlist_json["snippet"]["title"],
-                "channel_id": playlist_json["snippet"]["channelId"],
-                "channel_name": playlist_json["channelTitle"]
+        return {"playlist_id": playlist_json["id"],
+                "playlist_title": playlist_json["title"],
+                "channel_id": playlist_json["channel"]["id"],
+                "channel_name": playlist_json["channel"]["name"]
                 }
