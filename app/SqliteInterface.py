@@ -1,3 +1,4 @@
+from datetime import datetime
 import sqlite3
 from typing import List
 
@@ -62,6 +63,12 @@ class SqliteInterface:
         if value not in [0,1]:
             raise ValueError
         self.c.execute("UPDATE playlists SET transcribed=? WHERE id=?", (value, playlist))
+        self.conn.commit()
+        return True
+
+    def update_search_timestamp(self, playlist: str) -> bool:
+        self.c.execute("UPDATE playlists SET last_searched=? WHERE id=?",
+                       (int(datetime.now().timestamp()), playlist))
         self.conn.commit()
         return True
 
