@@ -1,14 +1,13 @@
 from typing import List
 
-from pyyoutube import Api as ytApi
-from youtubesearchpython import PlaylistsSearch
+from youtubesearchpython import Playlist, PlaylistsSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
 
 
 class Scraper:
 
-    def __init__(self, gd3api_key):
-        self.yt = ytApi(api_key=gd3api_key)
+    def __init__(self):
+        pass
 
     def scrape(self, playlist: str) -> str:
         """Returns concatenated transcript text."""
@@ -17,8 +16,8 @@ class Scraper:
 
     def get_playlist_item_ids(self, playlist: str) -> List[str]:
         """Return list of video IDs for items in playlist."""
-        resp = self.yt.get_playlist_items(playlist_id=playlist, count=None)
-        return [_i.snippet.resourceId.videoId for _i in resp.items]
+        videos = Playlist.getVideos(f"https://www.youtube.com/playlist?list={playlist}")["videos"]
+        return [video["id"] for video in videos]
 
     def get_transcript(self, video: str) -> str:
         """Returns"""
