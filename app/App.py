@@ -27,17 +27,28 @@ class App:
         self.log.addHandler(handler)
         self.log.setLevel(logging.DEBUG)
 
-
     def cycle(self) -> None:
         to_process = self.db.get_unprocessed()
-        if not to_process:
+        if to_process:
+            for playlist in to_process:
+                self.log.debug(f"Processing playlist {playlist[0]}.")
+                if self.process(playlist[0]):
+                    self.log.debug(f"Successfully processed {playlist[0]}.")
+        to_check = self.db.get_transcribed_unknown()
+        if to_check:
+            for playlist in to_check:
+                self.log.debug(f"Checking {playlist} for transcripts.")
+                self.db.mark_as_transcribed(
+                        playlist, 
+                        int(self.check_is_transcribed(playlist)))
+        if not to_process and not to_check:
             self.log.debug("Nothing to do. Waiting...")
             sleep(60)
-            return None
-        for playlist in to_process:
-            self.log.debug(f"Processing playlist {playlist[0]}.")
-            if self.process(playlist[0]):
-                self.log.debug(f"Successfully processed {playlist[0]}.")
+
+    def check_is_transcribed(self, playlist: str) -> bool:
+        return all(map(self.scraper.video_has_en_ts, 
+                       self.scraper.get_playlist_item_ids(playlist)))
+
 
     def process(self, playlist: str) -> bool:
         ts = self.scraper.scrape(playlist)
