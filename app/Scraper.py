@@ -37,7 +37,7 @@ class Scraper:
                                          search_type="playlist",
                                          count=999,
                                          return_json=True)
-        return map(self.trim_metadata, res.items)
+        return map(self.trim_metadata, res.items())
 
     def trim_metadata(self, playlist_json: dict) -> dict:
         return {"playlist_id": playlist_json["id"]["playlistId"],

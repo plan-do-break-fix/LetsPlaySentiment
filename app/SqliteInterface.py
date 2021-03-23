@@ -8,11 +8,11 @@ TABLES = {
     "playlists": (
         "CREATE TABLE IF NOT EXISTS 'playlists' ("
         "  id TEXT NOT NULL,"
-        "  title TEXT NOT NULL"
+        "  title TEXT NOT NULL,"
         "  channel INTEGER NOT NULL,"
         "  game INTEGER NOT NULL,"
         "  transcribed INTEGER NOT NULL,"
-        "  retrieved INTEGER DEFAULT 0"
+        "  retrieved INTEGER DEFAULT 0,"
         "  FOREIGN KEY (channel) REFERENCES channel (rowid),"
         "  FOREIGN KEY (game) REFERENCES games (rowid)"
         ");"
