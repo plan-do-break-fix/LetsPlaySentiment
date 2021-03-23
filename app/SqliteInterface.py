@@ -1,4 +1,3 @@
-from datetime import datetime
 import sqlite3
 from typing import List
 
@@ -27,7 +26,7 @@ TABLES = {
     "games": (
         "CREATE TABLE IF NOT EXISTS 'games' ("
         "  name TEXT NOT NULL,"
-        "  last_searched INTEGER DEFAULT 0"
+        "  searched INTEGER DEFAULT 0"
         ");"
     )
 }
@@ -50,11 +49,9 @@ class SqliteInterface:
         self.c.execute("SELECT id FOM playlists WHERE transcribed=NULL")
         return self.c.fetchall()
 
-    def get_oldest_update(self) -> int:
-        self.c.execute("SELECT last_searched, id FROM playlists")
-        updates = self.c.fetchall()
-        updates.sort(reverse=True)
-        return updates.pop()
+    def get_unsearched(self) -> int:
+        self.c.execute("SELECT name FROM games WHERE searched=0")
+        return self.c.fetchall()
 
     def mark_as_retrieved(self, playlist: str) -> bool:
         self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?", (playlist,))
@@ -68,9 +65,8 @@ class SqliteInterface:
         self.conn.commit()
         return True
 
-    def update_search_timestamp(self, playlist: str) -> bool:
-        self.c.execute("UPDATE playlists SET last_searched=? WHERE id=?",
-                       (int(datetime.now().timestamp()), playlist))
+    def mark_as_searched(self, playlist: str) -> bool:
+        self.c.execute("UPDATE playlists SET searched=1 WHERE id=?", (playlist,))
         self.conn.commit()
         return True
 
