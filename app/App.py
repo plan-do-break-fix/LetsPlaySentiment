@@ -35,15 +35,8 @@ class App:
                 self.log.debug(f"Processing playlist {playlist[0]}.")
                 if self.process(playlist[0]):
                     self.log.debug(f"Successfully processed {playlist[0]}.")
-        to_check = self.db.get_transcribed_unknown()
-        # check if any new playlists have transcripts or not
-        if to_check:
-            for playlist in to_check:
-                self.log.debug(f"Checking {playlist} for transcripts.")
-                self.db.mark_as_transcribed(playlist, 
-                                            int(self.check_is_transcribed(playlist)))
         # if previous entries are complete, find playlists for next game
-        if not to_process and not to_check:
+        if not to_process:
             to_search = self.db.get_unsearched()
             if not to_search:
                 self.log.debug("Nothing to do. Waiting...")
@@ -62,7 +55,8 @@ class App:
                     self.db.new_playlist(playlist["playlist_id"],
                                          playlist["playlist_title"],
                                          self.db.get_channel_pk(playlist["channel_id"]),
-                                         self.db.get_game_pk(to_search))
+                                         self.db.get_game_pk(to_search),
+                                         int(self.check_is_transcribed(playlist["playlist_id"])))
                     self.log.debug(f"Playlist for {to_search} by "\
                                     "{playlist['channel_name']} added.")
             self.db.mark_as_searched(playlist["playlist_id"])
