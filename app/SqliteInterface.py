@@ -25,7 +25,8 @@ TABLES = {
     ),
     "games": (
         "CREATE TABLE IF NOT EXISTS 'games' ("
-        "  name TEXT NOT NULL"
+        "  name TEXT NOT NULL,"
+        "  last_searched INTEGER DEFAULT 0"
         ");"
     )
 }
@@ -46,6 +47,11 @@ class SqliteInterface:
 
     def get_transcribed_unknown(self) -> List[str]:
         self.c.execute("SELECT id FOM playlists WHERE transcribed=NULL")
+        return self.c.fetchall()
+
+    def get_oldest_update(self) -> int:
+        self.c.execute("SELECT last_searched, id FROM playlists")
+        return self.c.fetchall()
 
     def mark_as_retrieved(self, playlist: str) -> bool:
         self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?", (playlist,))
