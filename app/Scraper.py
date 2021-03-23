@@ -1,6 +1,7 @@
 from typing import List
 
 from pyyoutube import Api as ytApi
+from youtube_search import YoutubeSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
 
 
