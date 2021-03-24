@@ -1,5 +1,6 @@
 from time import sleep
 from typing import List
+import youtube_transcript_api
 
 from youtubesearchpython import Playlist, PlaylistsSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
@@ -27,20 +28,30 @@ class Scraper:
         return " ".join(parts)
 
     def video_has_en_ts(self, video: str) -> bool:
-        res = tsApi.list_transcripts(video)
+        try:
+            res = tsApi.list_transcripts(video)
+        except youtube_transcript_api._errors.TranscriptsDisabled:
+            return False
         return True if res.find_generated_transcript(["en"]) else False
 
 
     # Finding and parsing playlist metadata
 
-    def find_playlists(self, terms: str) -> List[dict]:
+    def find_playlists(self, terms: str, attempt=0) -> List[dict]:
         search = PlaylistsSearch(terms)
         playlists = []
-        while search.result()["result"] and len(playlists) < 980:
-            playlists += search.result()["result"]
-            search.next()
-            sleep(3)  # HTTP requests need to be rate limited
-        return list(map(self.trim_metadata, playlists))
+        try:
+            while search.result()["result"] and len(playlists) < 980:
+                playlists += search.result()["result"]
+                search.next()
+                sleep(5)  # HTTP requests need to be rate limited
+            return list(map(self.trim_metadata, playlists))
+        except TypeError as err:
+            if attempt < 5:
+                return self.find_playlists(terms, attempt=attempt+1)
+            else:
+                print("Max retries reached on search.next() returns None.")
+                return err
 
     def trim_metadata(self, playlist_json: dict) -> dict:
         return {"playlist_id": playlist_json["id"],
