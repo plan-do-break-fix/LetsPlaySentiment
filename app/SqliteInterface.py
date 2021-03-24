@@ -87,7 +87,7 @@ class SqliteInterface:
     # Existence Checks
 
     def channel_exists(self, channel: str) -> bool:
-        self.c.execute("SELECT rowid FROM channels WHERE name=?",
+        self.c.execute("SELECT rowid FROM channels WHERE id=?",
                       (channel,))
         return True if self.c.fetchone() else False
 
