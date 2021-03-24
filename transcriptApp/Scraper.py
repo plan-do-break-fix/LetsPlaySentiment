@@ -19,9 +19,12 @@ class Scraper:
 
     def get_playlist_item_ids(self, playlist: str) -> List[str]:
         """Return list of video IDs for items in playlist."""
-        videos = Playlist.getVideos(
+        try:
+            videos = Playlist.getVideos(
                  f"https://www.youtube.com/playlist?list={playlist}"
                  )["videos"]
+        except TypeError:
+            return []
         return [video["id"] for video in videos]
 
     def get_transcript(self, video: str) -> str:
