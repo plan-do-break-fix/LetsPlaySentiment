@@ -3,6 +3,8 @@ from typing import List
 
 from youtubesearchpython import Playlist, PlaylistsSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
+from youtube_transcript_api._errors import NoTranscriptFound
+from youtube_transcript_api._errors import TranscriptsDisabled
 
 
 class Scraper:
@@ -17,7 +19,9 @@ class Scraper:
 
     def get_playlist_item_ids(self, playlist: str) -> List[str]:
         """Return list of video IDs for items in playlist."""
-        videos = Playlist.getVideos(f"https://www.youtube.com/playlist?list={playlist}")["videos"]
+        videos = Playlist.getVideos(
+                 f"https://www.youtube.com/playlist?list={playlist}"
+                 )["videos"]
         return [video["id"] for video in videos]
 
     def get_transcript(self, video: str) -> str:
@@ -29,11 +33,11 @@ class Scraper:
     def video_has_en_ts(self, video: str) -> bool:
         try:
             res = tsApi.list_transcripts(video)
-        except youtube_transcript_api._errors.TranscriptsDisabled:
+        except TranscriptsDisabled:
             return False
         try:
             return True if res.find_generated_transcript(["en"]) else False
-        except youtube_transcript_api._errors.NoTranscriptFound:
+        except NoTranscriptFound:
             return False
 
 
