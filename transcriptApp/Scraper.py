@@ -33,7 +33,7 @@ class Scraper:
     def video_has_en_ts(self, video: str) -> bool:
         try:
             res = tsApi.list_transcripts(video)
-        except TranscriptsDisabled:
+        except (TranscriptsDisabled, KeyError):
             return False
         try:
             return True if res.find_generated_transcript(["en"]) else False
