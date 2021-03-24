@@ -42,6 +42,7 @@ class App:
                 sleep(60)
                 return None
             to_search = to_search.pop()[0]
+            self.log.debug(f"Attempting to retrieve playlists for {to_search}.")
             playlist_dicts = self.scraper.find_playlists(f"lets play {to_search}")
             self.log.debug(f"Found {len(playlist_dicts)} playlists for {to_search}.")
             for playlist in playlist_dicts:
