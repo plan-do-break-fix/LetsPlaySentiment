@@ -42,11 +42,13 @@ class SqliteInterface:
         self.conn.commit()
     
     def get_unprocessed(self) -> List[str]:
-        self.c.execute("SELECT id FROM playlists WHERE transcribed=1 AND retrieved=0;")
+        self.c.execute("SELECT id FROM playlists WHERE "\
+                       "transcribed=1 AND retrieved=0;")
         return self.c.fetchall()
 
     def get_transcribed_unknown(self) -> List[str]:
-        self.c.execute("SELECT id FOM playlists WHERE transcribed=NULL")
+        self.c.execute("SELECT id FOM playlists WHERE "\
+                       "transcribed=NULL")
         return self.c.fetchall()
 
     def get_unsearched(self) -> int:
@@ -54,24 +56,28 @@ class SqliteInterface:
         return self.c.fetchall()
 
     def mark_as_retrieved(self, playlist: str) -> bool:
-        self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?", (playlist,))
+        self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?",
+                       (playlist,))
         self.conn.commit()
         return True
 
     def mark_as_transcribed(self, playlist: str, value: int) -> bool:
         if value not in [0,1]:
             raise ValueError
-        self.c.execute("UPDATE playlists SET transcribed=? WHERE id=?", (value, playlist))
+        self.c.execute("UPDATE playlists SET transcribed=? WHERE id=?",
+                       (value, playlist))
         self.conn.commit()
         return True
 
     def mark_as_searched(self, playlist: str) -> bool:
-        self.c.execute("UPDATE playlists SET searched=1 WHERE id=?", (playlist,))
+        self.c.execute("UPDATE playlists SET searched=1 WHERE id=?",
+                       (playlist,))
         self.conn.commit()
         return True
 
     def get_channel_pk(self, channel: str) -> int:
-        self.c.execute("SELECT rowid FROM channels WHERE id=?", (channel,))
+        self.c.execute("SELECT rowid FROM channels WHERE id=?",
+                       (channel,))
         return self.c.fetchone()[0]
 
     def get_game_pk(self, game: str) -> int:
@@ -81,7 +87,8 @@ class SqliteInterface:
     # Existence Checks
 
     def channel_exists(self, channel: str) -> bool:
-        self.c.execute("SELECT rowid FROM channels WHERE name=?", (channel,))
+        self.c.execute("SELECT rowid FROM channels WHERE name=?",
+                      (channel,))
         return True if self.c.fetchone() else False
 
     def game_exists(self, game: str) -> bool:
@@ -89,7 +96,8 @@ class SqliteInterface:
         return True if self.c.fetchone() else False
 
     def playlist_exists(self, playlist: str) -> bool:
-        self.c.execute("SELECT rowid FROM playlists WHERE id=?", (playlist,))
+        self.c.execute("SELECT rowid FROM playlists WHERE id=?",
+                       (playlist,))
         return True if self.c.fetchone() else False
 
     # Insertion Methods
@@ -100,8 +108,11 @@ class SqliteInterface:
         self.conn.commit()
         return self.c.lastrowid
 
-    def new_playlist(self, id: str, title:str, channel_pk: int, game_pk: int) -> int:
-        self.c.execute("INSERT INTO playlists (id, title, channel, game) VALUES (?,?,?,?)",
-                       (id, title, channel_pk, game_pk))
+    def new_playlist(self, id: str, title:str, channel_pk: int, 
+                     game_pk: int, transcribed: int) -> int:
+        self.c.execute("INSERT INTO playlists "\
+                       "(id, title, channel, game, transcribed) "\
+                       "VALUES (?,?,?,?,?)",
+                       (id, title, channel_pk, game_pk, transcribed))
         self.conn.commit()
         return self.c.lastrowid
