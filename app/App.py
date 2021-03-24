@@ -59,7 +59,7 @@ class App:
                                          int(self.check_is_transcribed(playlist["playlist_id"])))
                     self.log.debug(f"Playlist for {to_search} by "\
                                    f"{playlist['channel_name']} added.")
-            self.db.mark_as_searched(playlist["playlist_id"])
+            self.db.mark_as_searched(to_search)
 
     def check_is_transcribed(self, playlist: str) -> bool:
         try:

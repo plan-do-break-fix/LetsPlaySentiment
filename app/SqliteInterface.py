@@ -69,9 +69,9 @@ class SqliteInterface:
         self.conn.commit()
         return True
 
-    def mark_as_searched(self, playlist: str) -> bool:
-        self.c.execute("UPDATE playlists SET searched=1 WHERE id=?",
-                       (playlist,))
+    def mark_as_searched(self, game: str) -> bool:
+        self.c.execute("UPDATE games SET searched=1 WHERE name=?",
+                       (game,))
         self.conn.commit()
         return True
 
