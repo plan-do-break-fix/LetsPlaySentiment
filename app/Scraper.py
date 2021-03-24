@@ -45,7 +45,7 @@ class Scraper:
                 playlists += search.result()["result"]
                 search.next()
                 sleep(5)  # HTTP requests need to be rate limited
-            return list(map(self.trim_metadata, playlists))
+            return [i for i in list(map(self.trim_metadata, playlists)) if i]
         except TypeError as err:
             if attempt < 5:
                 return self.find_playlists(terms, attempt=attempt+1)
