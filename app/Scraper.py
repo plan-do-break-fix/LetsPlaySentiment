@@ -1,13 +1,14 @@
+from time import sleep
 from typing import List
 
-from pyyoutube import Api as ytApi
+from youtubesearchpython import Playlist, PlaylistsSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
 
 
 class Scraper:
 
-    def __init__(self, gd3api_key):
-        self.yt = ytApi(api_key=gd3api_key)
+    def __init__(self):
+        pass
 
     def scrape(self, playlist: str) -> str:
         """Returns concatenated transcript text."""
@@ -16,8 +17,8 @@ class Scraper:
 
     def get_playlist_item_ids(self, playlist: str) -> List[str]:
         """Return list of video IDs for items in playlist."""
-        resp = self.yt.get_playlist_items(playlist_id=playlist, count=None)
-        return [_i.snippet.resourceId.videoId for _i in resp.items]
+        videos = Playlist.getVideos(f"https://www.youtube.com/playlist?list={playlist}")["videos"]
+        return [video["id"] for video in videos]
 
     def get_transcript(self, video: str) -> str:
         """Returns"""
@@ -32,16 +33,18 @@ class Scraper:
 
     # Finding and parsing playlist metadata
 
-    def find_playlists(self, game: str) -> dict:
-        res = self.yt.search_by_keywords(q=f"{game}", 
-                                         search_type="playlist",
-                                         count=999,
-                                         return_json=True)
-        return map(self.trim_metadata, res.items())
+    def find_playlists(self, terms: str) -> List[dict]:
+        search = PlaylistsSearch(terms)
+        playlists = []
+        while search.result()["result"] and len(playlists) < 980:
+            playlists += search.result()["result"]
+            search.next()
+            sleep(3)  # HTTP requests need to be rate limited
+        return list(map(self.trim_metadata, playlists))
 
     def trim_metadata(self, playlist_json: dict) -> dict:
-        return {"playlist_id": playlist_json["id"]["playlistId"],
-                "playlist_title": playlist_json["snippet"]["title"],
-                "channel_id": playlist_json["snippet"]["channelId"],
-                "channel_name": playlist_json["channelTitle"]
+        return {"playlist_id": playlist_json["id"],
+                "playlist_title": playlist_json["title"],
+                "channel_id": playlist_json["channel"]["id"],
+                "channel_name": playlist_json["channel"]["name"]
                 }

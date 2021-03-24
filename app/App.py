@@ -12,8 +12,7 @@ class App:
         self.log.debug("Initializing application..."
                       ) if not envvars else self.log.debug(
                       "Initializing with dummy variables...")
-        key = environ["GD3API_KEY"] if not envvars else envvars["GD3API_KEY"]
-        self.scraper = Scraper(key)
+        self.scraper = Scraper()
         self.log.debug("Scraper successfully initialized.")
         self.db = SqliteInterface()
         self.log.debug("Database interface successfully initialized.")
