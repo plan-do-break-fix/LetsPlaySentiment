@@ -1,5 +1,6 @@
 from time import sleep
 from typing import List
+import youtube_transcript_api
 
 from youtubesearchpython import Playlist, PlaylistsSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
@@ -27,7 +28,10 @@ class Scraper:
         return " ".join(parts)
 
     def video_has_en_ts(self, video: str) -> bool:
-        res = tsApi.list_transcripts(video)
+        try:
+            res = tsApi.list_transcripts(video)
+        except youtube_transcript_api._errors.TranscriptsDisabled:
+            return False
         return True if res.find_generated_transcript(["en"]) else False
 
 
