@@ -41,8 +41,8 @@ class App:
                 self.log.debug("Nothing to do. Waiting...")
                 sleep(60)
                 return None
-            to_search = to_search.pop()
-            playlist_dicts = self.scraper.find_playlists(f"play {to_search}")
+            to_search = to_search.pop()[0]
+            playlist_dicts = self.scraper.find_playlists(f"lets play {to_search}")
             self.log.debug(f"Found {len(playlist_dicts)} playlists for {to_search}.")
             for playlist in playlist_dicts:
                 if not self.db.playlist_exists(playlist["playlist_id"]):
