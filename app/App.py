@@ -62,8 +62,11 @@ class App:
             self.db.mark_as_searched(playlist["playlist_id"])
 
     def check_is_transcribed(self, playlist: str) -> bool:
-        return all(map(self.scraper.video_has_en_ts, 
+        try:
+            return all(map(self.scraper.video_has_en_ts, 
                        self.scraper.get_playlist_item_ids(playlist)))
+        except TypeError:
+            return False
 
 
     def process(self, playlist: str) -> bool:
