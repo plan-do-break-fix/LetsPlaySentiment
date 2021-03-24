@@ -1,6 +1,5 @@
 from time import sleep
 from typing import List
-import youtube_transcript_api
 
 from youtubesearchpython import Playlist, PlaylistsSearch
 from youtube_transcript_api import YouTubeTranscriptApi as tsApi
