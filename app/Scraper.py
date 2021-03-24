@@ -1,3 +1,4 @@
+from time import sleep
 from typing import List
 
 from youtubesearchpython import Playlist, PlaylistsSearch
@@ -33,10 +34,13 @@ class Scraper:
     # Finding and parsing playlist metadata
 
     def find_playlists(self, terms: str) -> List[dict]:
-        search = PlaylistsSearch(terms, limit=200)
-        results = search.result()["result"]
-        while search.next():
-            results += search.result()["result"]
+        search = PlaylistsSearch(terms)
+        playlists = []
+        while search.result()["result"] and len(playlists) < 980:
+            playlists += search.result()["result"]
+            search.next()
+            sleep(3)  # HTTP requests need to be rate limited
+        return list(map(self.trim_metadata, playlists))
 
     def trim_metadata(self, playlist_json: dict) -> dict:
         return {"playlist_id": playlist_json["id"],
