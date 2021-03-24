@@ -32,7 +32,10 @@ class Scraper:
             res = tsApi.list_transcripts(video)
         except youtube_transcript_api._errors.TranscriptsDisabled:
             return False
-        return True if res.find_generated_transcript(["en"]) else False
+        try:
+            return True if res.find_generated_transcript(["en"]) else False
+        except youtube_transcript_api._errors.NoTranscriptFound:
+            return False
 
 
     # Finding and parsing playlist metadata
