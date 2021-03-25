@@ -1,7 +1,7 @@
-import json, os
+import os
 from typing import List
 
-from Matching import confirmed_match
+from Matching import confirmed_match, load_search_terms
 
 
 class App:
@@ -23,3 +23,4 @@ class App:
             return ""
         with open(f"/data/transcripts/{playlist}.txt", "r") as _f:
             return _f.read()
+
