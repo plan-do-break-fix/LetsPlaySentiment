@@ -47,6 +47,10 @@ class Scraper:
     # Finding and parsing playlist metadata
 
     def find_playlists(self, terms: str, attempt=0) -> List[dict]:
+        if attempt >= 5:
+            print("Max retries reached: search.next() / persistent None type.")
+            print(f"Unable to find playlists with '{terms}'.")
+            raise RecursionError
         search = PlaylistsSearch(terms)
         playlists = []
         try:
@@ -54,13 +58,13 @@ class Scraper:
                 playlists += search.result()["result"]
                 search.next()
                 sleep(5)  # HTTP requests need to be rate limited
-            return [i for i in list(map(self.trim_metadata, playlists)) if i]
-        except TypeError as err:
-            if attempt < 5:
+            output = [i for i in list(map(self.trim_metadata, playlists)) if i]
+            if output:
+                return output
+            elif output == []:
                 return self.find_playlists(terms, attempt=attempt+1)
-            else:
-                print("Max retries reached on search.next() returns None.")
-                return err
+        except TypeError:
+            return self.find_playlists(terms, attempt=attempt+1)
 
     def trim_metadata(self, playlist_json: dict) -> dict:
         return {"playlist_id": playlist_json["id"],
