@@ -29,7 +29,10 @@ class Scraper:
 
     def get_transcript(self, video: str) -> str:
         """Returns"""
-        resp = tsApi.get_transcript(video_id=video)
+        try:
+            resp = tsApi.get_transcript(video_id=video)
+        except (TranscriptsDisabled, NoTranscriptFound):
+            return ""
         parts = [_i["text"] for _i in resp]
         return " ".join(parts)
 

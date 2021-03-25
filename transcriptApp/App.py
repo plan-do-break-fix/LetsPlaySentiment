@@ -34,6 +34,10 @@ class App:
                 self.log.debug(f"Processing playlist {playlist[0]}.")
                 if self.process(playlist[0]):
                     self.log.debug(f"Successfully processed {playlist[0]}.")
+                else:
+                    self.db.mark_as_transcribed(playlist[0], 0)
+                    self.log.error(f"Failure processing {playlist[0]}. \
+                                     Transcript does not exist.")
         # if previous entries are complete, find playlists for next game
         if not to_process:
             to_search = self.db.get_unsearched()
@@ -72,7 +76,6 @@ class App:
     def process(self, playlist: str) -> bool:
         ts = self.scraper.scrape(playlist)
         if not ts:
-            self.log.error("Unable to retrieve transcript.")
             return False
         fpath = f"/data/transcripts/{playlist}.txt" 
         with open(fpath, "w") as _file:
