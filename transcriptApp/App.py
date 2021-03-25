@@ -36,8 +36,7 @@ class App:
                     self.log.debug(f"Successfully processed {playlist[0]}.")
                 else:
                     self.db.mark_as_transcribed(playlist[0], 0)
-                    self.log.error(f"Failure processing {playlist[0]}. \
-                                     Transcript does not exist.")
+                    self.log.error(f"Failure processing {playlist[0]}.")
         # if previous entries are complete, find playlists for next game
         if not to_process:
             to_search = self.db.get_unsearched()
@@ -83,6 +82,7 @@ class App:
         self.log.debug(f"Transcript file written to disk.")
         self.db.mark_as_retrieved(playlist)
         self.log.debug(f"Transcript marked as retrieved.")
+        return True
 
 
 if __name__ == "__main__":
