@@ -84,6 +84,10 @@ class SqliteInterface:
         self.c.execute("SELECT rowid FROM games WHERE name=?", (game,))
         return self.c.fetchone()[0]
 
+    def get_playlist_title(self, playlist: str) -> str:
+        self.c.execute("SELECT title FROM playlists WHERE id=?", (playlist,))
+        return self.c.fetchone()[0]
+
     # Existence Checks
 
     def channel_exists(self, channel: str) -> bool:
