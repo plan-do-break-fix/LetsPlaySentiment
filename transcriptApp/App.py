@@ -75,6 +75,7 @@ class App:
     def process(self, playlist: str) -> bool:
         ts = self.scraper.scrape(playlist)
         if not ts:
+            self.log.warning("Scraper returned {ts} {type(ts)} as transcript.")
             return False
         fpath = f"/data/transcripts/{playlist}.txt" 
         with open(fpath, "w") as _file:
