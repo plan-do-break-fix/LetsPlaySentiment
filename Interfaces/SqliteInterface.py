@@ -12,7 +12,7 @@ TABLES = {
         "  channel INTEGER DEFAULT NULL,"
         "  game INTEGER DEFAULT NULL,"
         "  transcribed INTEGER DEFAULT NULL,"
-        "  retrieved INTEGER DEFAULT 0,"
+        "  retrieved INTEGER DEFAULT NULL,"
         "  FOREIGN KEY (channel) REFERENCES channel (rowid),"
         "  FOREIGN KEY (game) REFERENCES games (rowid)"
         ");"
