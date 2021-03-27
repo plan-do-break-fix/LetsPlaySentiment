@@ -39,9 +39,7 @@ class App:
                          if not self.db.playlist_exists(p["playlist_id"])]
         for playlist in new_playlists:
             self.db.new_playlist(playlist["playlist_id"],
-                                 playlist["playlist_title"],
-                                 self.db.get_channel_pk(playlist["channel_id"]),
-                                 self.db.get_game_pk(game_name))
+                                 playlist["playlist_title"])
         self.log.info(f"{len(new_playlists)} new playlists found.")
         # Find candidate playlists and associate with a channel
         candidates = []
