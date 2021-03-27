@@ -41,13 +41,18 @@ class SqliteInterface:
             self.c.execute(TABLES[table])
         self.conn.commit()
     
-    def get_unprocessed(self) -> List[str]:
+    def get_awaiting_download(self) -> List[str]:
+        self.c.execute("SELECT id FROM playlists WHERE "\
+                       "transcribed=1 AND retrieved=NULL;")
+        return self.c.fetchall()
+
+    def get_download_failed(self) -> List[str]:
         self.c.execute("SELECT id FROM playlists WHERE "\
                        "transcribed=1 AND retrieved=0;")
         return self.c.fetchall()
 
     def get_transcribed_unknown(self) -> List[str]:
-        self.c.execute("SELECT id FOM playlists WHERE "\
+        self.c.execute("SELECT id FROM playlists WHERE "\
                        "transcribed=NULL")
         return self.c.fetchall()
 
