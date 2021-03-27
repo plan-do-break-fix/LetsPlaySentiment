@@ -9,9 +9,9 @@ TABLES = {
         "CREATE TABLE IF NOT EXISTS 'playlists' ("
         "  id TEXT NOT NULL,"
         "  title TEXT NOT NULL,"
-        "  channel INTEGER NOT NULL,"
-        "  game INTEGER NOT NULL,"
-        "  transcribed INTEGER NOT NULL,"
+        "  channel INTEGER DEFAULT NULL,"
+        "  game INTEGER DEFAULT NULL,"
+        "  transcribed INTEGER DEFAULT NULL,"
         "  retrieved INTEGER DEFAULT 0,"
         "  FOREIGN KEY (channel) REFERENCES channel (rowid),"
         "  FOREIGN KEY (game) REFERENCES games (rowid)"
@@ -55,9 +55,9 @@ class SqliteInterface:
         self.c.execute("SELECT name FROM games WHERE searched=0")
         return self.c.fetchall()
 
-    def mark_as_retrieved(self, playlist: str) -> bool:
-        self.c.execute("UPDATE playlists SET retrieved=1 WHERE id=?",
-                       (playlist,))
+    def mark_as_retrieved(self, playlist: str, value=1) -> bool:
+        self.c.execute("UPDATE playlists SET retrieved=? WHERE id=?",
+                       (value, playlist))
         self.conn.commit()
         return True
 
@@ -74,6 +74,14 @@ class SqliteInterface:
                        (game,))
         self.conn.commit()
         return True
+
+    def associate_with_channel(self, playlist_id: str, channel_pk: str) -> bool:
+        self.c.execute("UPDATE playlists SET channel=? WHERE id=?",
+                       (channel_pk, playlist_id))
+
+    def associate_with_game(self, playlist_id: str, game_pk: str) -> bool:
+        self.c.execute("UPDATE playlists SET game=? WHERE id=?",
+                       (game_pk, playlist_id))
 
     def get_channel_pk(self, channel: str) -> int:
         self.c.execute("SELECT rowid FROM channels WHERE id=?",
@@ -112,11 +120,11 @@ class SqliteInterface:
         self.conn.commit()
         return self.c.lastrowid
 
-    def new_playlist(self, id: str, title:str, channel_pk: int, 
-                     game_pk: int, transcribed: int) -> int:
+    def new_playlist(self, id: str, title:str,
+                     channel_pk: int, game_pk: int) -> int:
         self.c.execute("INSERT INTO playlists "\
-                       "(id, title, channel, game, transcribed) "\
-                       "VALUES (?,?,?,?,?)",
-                       (id, title, channel_pk, game_pk, transcribed))
+                       "(id, title) "\
+                       "VALUES (?,?,?,?)",
+                       (id, title, channel_pk))
         self.conn.commit()
         return self.c.lastrowid
