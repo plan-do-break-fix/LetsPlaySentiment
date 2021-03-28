@@ -15,6 +15,7 @@ class App:
         self.log.debug("Scraper initialized.")
         self.db = SqliteInterface()
         self.log.debug("Database interface initialized.")
+        self.update_games()
 
     def setup_logging(self):
         self.log = logging.getLogger("TransciptApp")
@@ -28,7 +29,8 @@ class App:
     def update_games(self) -> None:
         new_games = [g for g in self.game_terms.keys() 
                          if not self.db.game_exists(g)]
-        map(self.db.add_game, new_games)
+        for game in new_games:
+            self.db.new_game(game)
         self.log.info(f"{len(new_games)} games added to database.")
 
     def cycle(self) -> None:
@@ -111,6 +113,9 @@ class App:
         games = [g for g in self.game_terms.keys() \
                  if confirmed_match(title.lower(), **self.game_terms[g])]
         if len(games) > 1:
+            sims_games = [g for g in games if "The Sims" in g]
+            if sims_games and len(sims_games) == 1:
+                return sims_games[0]
             self.log.critical("Search term integrity failure.")
             self.log.critical(f"{games} have matching terms in {title}.")
             raise RuntimeError
