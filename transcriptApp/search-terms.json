@@ -1,60 +1,220 @@
 {
-    "Doom Eternal": null,
-    "Alien Isolation": {
-        "match_regexes": ["alien:? isolation"]
+    "60 Seconds": null,
+    "Alien: Isolation": {
+      "match_regexes": [
+        "alien:? isolation"
+      ]
     },
-    "Resident Evil 7": null, 
-    "Octodad: Dadliest Catch": {
-        "match_strings": ["dadliest catch"]
-    },
-    "Cuphead": null,
-    "Turbo Dismount": null,
-    "Dementium II": {
-        "match_strings": [
-            "dementium 2",
-            "dementium ii"
-        ]
-    },
-    "The Stanley Parable": null,
-    "The Crooked Man": null,
+    "Among the Sleep": null,
     "Ao Oni": null,
-    "Mad Father": null,
-    "Dead Space 3": null,
-    "Cyberpunk 2077": null,
+    "Astroneer": null,
+    "At Dead of Night": null,
+    "Baldur's Gate 3": {
+      "match_regexes": [
+        "baldur'?s gate 3"
+      ]
+    },
+    "Bus Simulator 18": null,
+    "CHKN": null,
+    "Car Mechanic Simulator": null,
+    "Cities: Skylines": {
+      "match_regexes": [
+        "cities:? skylines"
+      ]
+    },
+    "Cooking Simulator": null,
+    "Crusader Kings 2": null,
+    "Crusader Kings 3": null,
     "Cry of Fear": null,
+    "Cultist Simulator": null,
+    "Cuphead": null,
+    "Cyberpunk 2077": null,
+    "Dark Souls": {
+      "match_regexes": [
+        "dark souls(?!= [2-9])"
+      ]
+    },
+    "Dark Souls 2": null,
+    "Dead Space 3": null,
+    "Dementium II": {
+      "match_strings": [
+        "dementium 2",
+        "dementium ii"
+      ]
+    },
+    "Destroy All Humans!": {
+      "match_regexes": [
+        "destroy all humans.?(?!= [2-9])"
+      ]
+    },
+    "Destroy All Humans! 2": {
+      "match_regexes": [
+        "destroy all humans.? 2"
+      ]
+    },
+    "Detroit: Become Human": {
+      "match_regexes": [
+        "detroit:? become human"
+      ]
+    },
+    "Don't Starve": {
+      "match_regexes": [
+        "don'?t starve(?!= together)"
+      ]
+    },
+    "Doom Eternal": null,
+    "Dragon Ball Z: Kakarot": {
+      "match_regexes": [
+        "dragon ball z:? kakarot"
+      ]
+    },
+    "Dream Daddy": null,
+    "Fallout 3": null,
+    "Fallout 4": null,
+    "Fallout: New Vegas": {
+      "match_regexes": [
+        "fallout:? new vegas"
+      ]
+    },
     "Far Cry 5": null,
+    "Far Cry Primal": {
+      "match_regexes": [
+        "far cry:? primal"
+      ]
+    },
+    "Fatal Frame 2": null,
+    "Fatal Frame 3": null,
+    "Fatal Frame 4": null,
+    "Fatal Frame 5": null,
+    "Final Fantasy 7": null,
+    "Firewatch": null,
+    "Five Nights at Freddy's": {
+      "match_regexes": [
+        "five nights at freddy'?s"
+      ]
+    },
+    "From Dust": null,
+    "GORN": null,
+    "Game Dev Tycoon": null,
+    "Goat Simulator": null,
+    "God of War 2": null,
+    "God of War 3": null,
+    "God of War 4": null,
+    "Guts and Glory": null,
+    "Half-Life 2": {
+      "match_regexes": [
+        "half(-| )life 2"
+      ]
+    },
+    "Happy Wheels": null,
+    "Hitman 2": null,
+    "Hobo: Tough Life": {
+      "match_regexes": [
+        "hobo:? tough life"
+      ]
+    },
+    "Hollow Knight": {
+      "match_strings": [
+        "hollow knight"
+      ],
+      "unmatch_regexes": [
+        "hollow knight [2-9]"
+      ]
+    },
+    "Job Simulator": null,
+    "Jurassic World: Evolution": {
+      "match_regexes": [
+        "jurassic world:? evolution"
+      ]
+    },
+    "Kerbal Space Program": null,
+    "Kingdom Come: Deliverance": {
+      "match_regexes": [
+        "kingdom come:? deliverance"
+      ]
+    },
+    "Lakeview Cabin": null,
+    "Limbo": null,
+    "Little Nightmares": {
+      "match_regexes": [
+        "little nightmares(?!= [2-9])"
+      ]
+    },
+    "Little Nightmares 2": null,
+    "Loop Hero": null,
+    "Mad Father": null,
+    "No Time To Explain": null,
+    "Octodad: Dadliest Catch": {
+      "match_strings": [
+        "dadliest catch"
+      ]
+    },
+    "Ori and the Blind Forest": null,
+    "Outlast": {
+      "match_regexes": [
+        "outlast(?!= [2-9])"
+      ]
+    },
+    "Outlast 2": null,
     "Oxygen Not Included": null,
     "Papers, Please": null,
-    "At Dead of Night": null,
-    "Fallout: New Vegas": {
-        "match_regexes": ["fallout:? new vegas"]
+    "Paranoiac": null,
+    "Party Hard": null,
+    "Persona 5": null,
+    "Planet Coaster": null,
+    "Planet Zoo": null,
+    "Poly Bridge": null,
+    "Portal": {
+      "match_regexes": [
+        "portal(?!= [2-9])"
+      ]
     },
-    "The Witcher 2": null,
-    "Until Dawn": {
-        "match_strings": ["until dawn"],
-        "unmatch_regexs": ["until dawn [2-9]"]
-    },
-    "We Happy Few": null,
-    "Elder Scrolls: Skyrim": {
-        "match_strings": ["skyrim"]
+    "Portal 2": null,
+    "Resident Evil 7": null,
+    "Rimworld": null,
+    "Rise to Ruins": null,
+    "RollerCoaster Tycoon 3": null,
+    "Scrap Mechanic": null,
+    "Skate 3": null,
+    "Slime Rancher": null,
+    "Sneak Thief": null,
+    "Sniper Elite 4": null,
+    "Sniper Elite III": {
+      "match_regexes": [
+        "sniper elite (3|III)"
+      ]
     },
     "Spore": null,
     "Subnautica": null,
+    "Tank Mechanic Simulator": null,
+    "The Crooked Man": null,
+    "The Elder Scrolls V: Skyrim": {
+      "match_strings": [
+        "skyrim"
+      ]
+    },
     "The Evil Within": null,
-    "Baldur's Gate 3": {
-        "match_regexes": ["baldur'?s gate 3"]
+    "The Final Station": null,
+    "The Long Dark": null,
+    "The Sims 4": null,
+    "The Stanley Parable": null,
+    "The Witcher 2": null,
+    "The Witcher 3: Wild Hunt": {
+      "match_strings": [
+        "the witcher 3"
+      ]
     },
-    "Final Fantasy 7": null,
-    "Dragon Ball Z: Kakarot": {
-        "match_regexes": ["dragon ball z:? kakarot"]
+    "Thief Simulator": null,
+    "Turbo Dismount": null,
+    "Unravel": null,
+    "Until Dawn": {
+      "match_strings": [
+        "until dawn"
+      ],
+      "unmatch_regexs": [
+        "until dawn [2-9]"
+      ]
     },
-    "Hollow Knight": {
-        "match_strings": ["hollow knight"],
-        "unmatch_regexes": ["hollow knight [2-9]"]
-    },
-    "Five Nights at Freddy's": {
-        "match_regexes": ["five nights at freddy'?s"]
-    },
-    "Goat Simulator": null,
-    "Job Simulator": null
-}
+    "We Happy Few": null,
+    "Yandere Simulator": null
+  }
