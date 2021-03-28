@@ -125,6 +125,11 @@ class SqliteInterface:
         self.conn.commit()
         return self.c.lastrowid
 
+    def new_game(self, name: str) -> int:
+        self.c.execute("INSERT INTO games (name) VALUES (?)", (name,))
+        self.conn.commit()
+        return self.c.lastrowid
+
     def new_playlist(self, id: str, title:str) -> int:
         self.c.execute("INSERT INTO playlists (id, title) "\
                        "VALUES (?,?)", (id, title))
