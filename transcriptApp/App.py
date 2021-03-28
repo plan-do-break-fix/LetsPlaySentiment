@@ -25,6 +25,12 @@ class App:
         self.log.addHandler(handler)
         self.log.setLevel(logging.DEBUG)
 
+    def update_games(self) -> None:
+        new_games = [g for g in self.game_terms.keys() 
+                         if not self.db.game_exists(g)]
+        map(self.db.add_game, new_games)
+        self.log.info(f"{len(new_games)} games added to database.")
+        
     def cycle(self) -> None:
         """Processing tasks to be performed for each game title."""
         to_search = self.db.get_unsearched()
@@ -56,11 +62,16 @@ class App:
         for c in candidates:
             matching_game = self.match_to_game(c["playlist_title"])
             if matching_game:
-                self.db.associate_with_game(c["playlist_id"], c["game"])
+                if not self.db.game_exists(matching_game):
+                    self.log.critical(f"Game terms key {matching_game} not "
+                                      "match any name in games table.")
+                    raise RuntimeError
+                self.db.associate_with_game(c["playlist_id"],
+                                            self.db.get_game_pk(matching_game))
                 c["game"] = self.db.get_game_pk(matching_game)
                 matches.append(c)
             else:
-                self.associate_with_game(c["playlist_id"], 0)
+                self.db.associate_with_game(c["playlist_id"], 0)
         self.log.info(f"{len(matches)} confirmed matches found.")
         # Find transcribed matches and fetch transcripts
         for m in matches:
@@ -98,7 +109,7 @@ class App:
 
     def match_to_game(self, title: str) -> str:
         games = [g for g in self.game_terms.keys() \
-                 if confirmed_match(title, self.game_terms[g])]
+                 if confirmed_match(title.lower(), **self.game_terms[g])]
         if len(games) > 1:
             self.log.critical("Search term integrity failure.")
             self.log.critical(f"{games} have matching terms in {title}.")
