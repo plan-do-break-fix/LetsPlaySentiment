@@ -40,6 +40,7 @@ class App:
         if not to_search:
             self.log.warning("Nothing to do. Waiting...")
             sleep(60)
+            return None
         game_name = to_search.pop()[0]
         self.log.info(f"Finding playlists for {game_name}.")
         # Find new playlists for game
