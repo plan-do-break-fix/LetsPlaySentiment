@@ -31,7 +31,7 @@
     "Cyberpunk 2077": null,
     "Dark Souls": {
       "match_regexes": [
-        "dark souls(?!= [2-9])"
+        "dark souls(?! [2-9])"
       ]
     },
     "Dark Souls 2": null,
@@ -44,7 +44,7 @@
     },
     "Destroy All Humans!": {
       "match_regexes": [
-        "destroy all humans.?(?!= [2-9])"
+        "destroy all humans.?(?! [2-9])"
       ]
     },
     "Destroy All Humans! 2": {
@@ -59,7 +59,7 @@
     },
     "Don't Starve": {
       "match_regexes": [
-        "don'?t starve(?!= together)"
+        "don'?t starve(?! together)"
       ]
     },
     "Doom Eternal": null,
@@ -115,10 +115,7 @@
     },
     "Hollow Knight": {
       "match_strings": [
-        "hollow knight"
-      ],
-      "unmatch_regexes": [
-        "hollow knight [2-9]"
+        "hollow knight(?! [2-9])"
       ]
     },
     "Job Simulator": null,
@@ -137,7 +134,7 @@
     "Limbo": null,
     "Little Nightmares": {
       "match_regexes": [
-        "little nightmares(?!= [2-9])"
+        "little nightmares(?! [2-9])"
       ]
     },
     "Little Nightmares 2": null,
@@ -152,7 +149,7 @@
     "Ori and the Blind Forest": null,
     "Outlast": {
       "match_regexes": [
-        "outlast(?!= [2-9])"
+        "outlast(?! [2-9])"
       ]
     },
     "Outlast 2": null,
@@ -166,7 +163,7 @@
     "Poly Bridge": null,
     "Portal": {
       "match_regexes": [
-        "portal(?!= [2-9])"
+        "portal(?! [2-9])"
       ]
     },
     "Portal 2": null,
@@ -209,10 +206,7 @@
     "Unravel": null,
     "Until Dawn": {
       "match_strings": [
-        "until dawn"
-      ],
-      "unmatch_regexs": [
-        "until dawn [2-9]"
+        "until dawn(?! [2-9])"
       ]
     },
     "We Happy Few": null,
