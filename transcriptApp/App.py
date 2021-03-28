@@ -31,7 +31,8 @@ class App:
                          if not self.db.game_exists(g)]
         for game in new_games:
             self.db.new_game(game)
-        self.log.info(f"{len(new_games)} games added to database.")
+        if new_games:
+            self.log.info(f"{len(new_games)} games added to database.")
 
     def cycle(self) -> None:
         """Processing tasks to be performed for each game title."""
