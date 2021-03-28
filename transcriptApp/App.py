@@ -30,7 +30,7 @@ class App:
                          if not self.db.game_exists(g)]
         map(self.db.add_game, new_games)
         self.log.info(f"{len(new_games)} games added to database.")
-        
+
     def cycle(self) -> None:
         """Processing tasks to be performed for each game title."""
         to_search = self.db.get_unsearched()
@@ -63,8 +63,8 @@ class App:
             matching_game = self.match_to_game(c["playlist_title"])
             if matching_game:
                 if not self.db.game_exists(matching_game):
-                    self.log.critical(f"Game terms key {matching_game} not "
-                                      "match any name in games table.")
+                    self.log.critical(f"Game terms key {matching_game} does not"
+                                      " match any game title in database.")
                     raise RuntimeError
                 self.db.associate_with_game(c["playlist_id"],
                                             self.db.get_game_pk(matching_game))
