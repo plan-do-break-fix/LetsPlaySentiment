@@ -245,7 +245,9 @@
   },
   "Portal 2": null,
   "Prison Architect": null,
-  "Raft": null,
+  "Raft": {
+    "match_regexes": ["(?<![a-z])raft(?=($| ))"]
+  },
   "Resident Evil 3": null,
   "Resident Evil 7": null,
   "Rimworld": null,
