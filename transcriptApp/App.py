@@ -118,9 +118,10 @@ class App:
             sims_games = [g for g in games if "The Sims" in g]
             if sims_games and len(sims_games) == 1:
                 return sims_games[0]
-            self.log.critical("Search term integrity failure.")
-            self.log.critical(f"{games} have matching terms in {title}.")
-            raise RuntimeError
+            return ""
+            #self.log.critical("Search term integrity failure.")
+            #self.log.critical(f"{games} have matching terms in {title}.")
+            #raise RuntimeError
         return games[0] if games else ""
 
 if __name__ == "__main__":
